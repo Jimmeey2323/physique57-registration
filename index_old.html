@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7389670XJC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-7389670XJC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physique 57 - New Member Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --p57-black: #000000;
+            --p57-white: #FFFFFF;
+            --p57-gold: #D4AF37;
+            --p57-gold-dark: #B8941F;
+            --p57-gray-light: #F5F5F5;
+            --p57-gray-medium: #CCCCCC;
+            --p57-gray-dark: #666666;
+            --p57-accent: #FF6B9D;
+            --p57-success: #28A745;
+            --p57-error: #DC3545;
+            --p57-warning: #FFC107;
+            --background-gradient: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            --border-radius: 16px;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--background-gradient);
+            min-height: 100vh;
+            color: var(--p57-black);
+        }
+        
+        .form-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: transparent;
+            z-index: 1000;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .form-container {
+            background: var(--p57-white);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            border: 2px solid var(--p57-gold);
+            transition: all 0.3s ease;
+            min-height: 600px;
+            position: relative;
+        }
+        
+        .form-container:before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--p57-gold), var(--p57-gold-dark), var(--p57-gold));
+            border-radius: var(--border-radius);
+            z-index: -1;
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .logo-container img {
+            max-width: 80px;
+            height: auto;
+            filter: brightness(0) invert(1);
+            transition: all 0.3s ease;
+        }
+        
+        .brand-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--p57-black);
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .brand-subtitle {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--p57-gray-dark);
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        
+        .screen-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--p57-black);
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        
+        .screen-subtitle {
+            text-align: center;
+            font-size: 15px;
+            color: var(--p57-gray-dark);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        #lead-form {
+            padding: 0;
+        }
+        
+        #lead-form label, #lead-form p {
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--p57-black);
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        
+        #lead-form input[type="text"], 
+        #lead-form input[type="email"], 
+        #lead-form input[type="tel"], 
+        #lead-form select,
+        .search-input {
+            width: 100%;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border: 2px solid var(--p57-gray-medium);
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            background: var(--p57-white);
+        }
+        
+        #lead-form input[type="text"]:focus, 
+        #lead-form input[type="email"]:focus, 
+        #lead-form input[type="tel"]:focus, 
+        #lead-form select:focus,
+        .search-input:focus {
+            outline: none;
+            border-color: var(--p57-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .btn-group.vertical {
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        button {
+            padding: 16px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        button:hover:before {
+            left: 100%;
+        }
+        
+        button.submit {
+            background: linear-gradient(135deg, var(--p57-gold), var(--p57-gold-dark));
+            color: var(--p57-black);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            font-weight: 700;
+        }
+        
+        button.submit:hover {
+            background: linear-gradient(135deg, var(--p57-gold-dark), #A67C00);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
+        }
+        
+        button.submit:active {
+            transform: translateY(0);
+        }
+        
+        button.close {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        }
+        
+        button.close:hover {
+            background: linear-gradient(135deg, #495057, #343a40);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+        }
+        
+        button.purchase {
+            background: linear-gradient(135deg, var(--success-color), #1b5e20);
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        }
+        
+        button.purchase:hover {
+            background: linear-gradient(135deg, #1b5e20, #0d4715);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+        }
+        
+        button.whatsapp {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        button.whatsapp:hover {
+            background: linear-gradient(135deg, #128c7e, #075e54);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        #button-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        small {
+            display: block;
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: -5px;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+      
+        .required {
+            color: var(--error-color);
+            font-weight: 700;
+        }
+        
+        /* Enhanced styles for new screens */
+        .initial-screen, .search-screen {
+            text-align: center;
+        }
+        
+        .search-screen input {
+            margin-bottom: 20px;
+        }
+        
+        #search-results {
+            text-align: left;
+            margin-top: 20px;
+        }
+        
+        .member-info-card {
+            background: linear-gradient(135deg, #f8f9ff, #e8f2ff);
+            border: 1px solid rgba(28, 144, 255, 0.2);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .member-info-card h4 {
+            margin: 0 0 8px 0;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+        
+        .member-info-card p {
+            margin: 4px 0;
+            font-size: 13px;
+        }
+        
+        .membership-status-card {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .membership-status-card.success {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c8);
+            border: 1px solid rgba(46, 125, 50, 0.3);
+        }
+        
+        .membership-status-card.error {
+            background: linear-gradient(135deg, #ffeaea, #ffcdd2);
+            border: 1px solid rgba(211, 47, 47, 0.3);
+        }
+        
+        .membership-status-card.warning {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            border: 1px solid rgba(245, 124, 0, 0.3);
+        }
+        
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c8);
+            color: var(--success-color);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            border: 1px solid rgba(46, 125, 50, 0.3);
+        }
+        
+        .error-message {
+            background: linear-gradient(135deg, #ffeaea, #ffcdd2);
+            color: var(--error-color);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            border: 1px solid rgba(211, 47, 47, 0.3);
+        }
+        
+        .warning-message {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            color: var(--warning-color);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            border: 1px solid rgba(245, 124, 0, 0.3);
+        }
+        
+        .contact-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .divider:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ddd, transparent);
+        }
+        
+        .divider span {
+            background: white;
+            padding: 0 16px;
+            color: var(--text-light);
+            font-size: 12px;
+        }
+        
+        /* Icon styles */
+        .icon {
+            margin-right: 8px;
+        }
+    </style>
+
+    <!-- Snap Pixel Code -->
+    <script type='text/javascript'>
+        (function(e, t, n) {
+            if (e.snaptr) return;
+            var a = e.snaptr = function() {
+                a.handleRequest ? a.handleRequest.apply(a, arguments) : a.queue.push(arguments)
+            };
+            a.queue = [];
+            var s = 'script';
+            r = t.createElement(s);
+            r.async = !0;
+            r.src = n;
+            var u = t.getElementsByTagName(s)[0];
+            u.parentNode.insertBefore(r, u);
+        })(window, document, 'https://sc-static.net/scevent.min.js');
+
+        snaptr('init', '5217a3a7-5f50-4c98-803c-a73c9f05737e', {
+            'user_email': '__INSERT_USER_EMAIL__'
+        });
+
+        snaptr('track', 'PAGE_VIEW');
+    </script>
+    <!-- End Snap Pixel Code -->
+
+    <!-- Meta Pixel script -->
+    <script>
+        !function(f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function() {
+                n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '527819981439695');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img src="https://www.facebook.com/tr?id=527819981439695&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-809104648"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-809104648');
+    </script>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WHBZMFXL"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="form-overlay" id="form-overlay">
+        <div class="form-container">
+            <!-- Initial Question -->
+            <div id="initial-question" class="initial-screen">
+                <div class="logo-container">
+                    <img src="logo.jpeg" alt="Logo">
+                </div>
+                <h2 class="screen-title">Welcome to Physique 57!</h2>
+                <p class="screen-subtitle">Do you have an active membership with us?</p>
+                <div class="btn-group">
+                    <button type="button" id="existing-member-btn" class="submit" style="flex: 1;">
+                        <span class="icon">✓</span>Yes, I'm a member
+                    </button>
+                    <button type="button" id="new-member-btn" class="submit" style="flex: 1;">
+                        <span class="icon">+</span>No, I'm new
+                    </button>
+                </div>
+                <button id="close-button-initial" class="close" style="width: 100%;">Close</button>
+            </div>
+
+            <!-- Member Search Screen -->
+            <div id="member-search" class="search-screen" style="display: none;">
+                <div class="logo-container">
+                    <img src="logo.jpeg" alt="Logo">
+                </div>
+                <h2 class="screen-title">Find Your Membership</h2>
+                <p class="screen-subtitle">Enter your email or phone number to verify your membership details</p>
+                
+                <label for="searchInput">Email or Phone Number <span class="required">*</span></label>
+                <input type="text" id="searchInput" name="searchInput" class="search-input" placeholder="Enter email or phone number" required>
+                
+                <div class="btn-group">
+                    <button type="button" id="search-back-btn" class="close" style="flex: 1;">Back</button>
+                    <button type="button" id="search-member-btn" class="submit" style="flex: 1;">
+                        <span class="icon">🔍</span>Search
+                    </button>
+                </div>
+                
+                <div id="search-results" style="display: none;">
+                    <div id="member-info" class="member-info-card"></div>
+                    <div id="membership-status"></div>
+                </div>
+            </div>
+
+            <!-- Registration Form -->
+            <form id="lead-form" style="display: none;">
+                <div class="logo-container">
+                    <img src="logo.jpeg" alt="Logo">
+                </div>
+                
+                <h2 class="screen-title">Complete Your Registration</h2>
+                
+                <div id="member-welcome" class="success-message" style="display: none;">
+                    <span class="icon">✓</span> Membership verified! Please complete your registration below:
+                </div>
+
+                <label for="firstName">First Name <span class="required">*</span></label>
+                <input type="text" id="firstName" name="firstName" required>
+
+                <label for="lastName">Last Name <span class="required">*</span></label>
+                <input type="text" id="lastName" name="lastName" required>
+
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phoneNumber">Phone Number <span class="required">*</span></label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="+91XXXXXXXXXX" oninput="formatPhoneNumber()">
+
+                <label for="time">What is your preferred time to connect?<span class="required">*</span></label>
+                <select id="time" name="time" required>
+                    <option value="" disabled selected>Preferred Time</option>
+                    <option value="Any">Any</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Noon">Noon</option>
+                    <option value="Evening">Evening</option>
+                </select>
+
+                <label for="center">Select a Studio Location<span class="required">*</span></label>
+                <select id="center" name="center" required>
+                    <option value="" disabled selected>Select Preferred Studio Location</option>
+                    <option value="Supreme Headquarters, Bandra">Supreme Headquarters, Bandra</option>
+                    <option value="Kwality House, Kemps Corner">Kwality House, Kemps Corner</option>
+                    <option value="Kenkere House, Bengaluru" id="bengaluru-option" style="display: none;">Kenkere House, Bengaluru</option>
+                </select>
+
+                <div id="classTypeContainer" style="display: none;">
+                    <label for="type">Select a class type <span class="required">*</span></label>
+                    <select id="type" name="type">
+                        <option value="" disabled selected>Select Class Type</option>
+                        <option value="Barre 57">Barre 57</option>
+                        <option value="powerCycle">powerCycle</option>
+                    </select>
+                </div>
+
+                <div id="button-container">
+                    <button type="button" id="form-back-btn" class="close">Back</button>
+                    <button type="submit" class="submit">Submit Registration</button>
+                </div>
+            </form>
+
+            <!-- No Membership Screen -->
+            <div id="no-membership-screen" style="display: none; text-align: center;">
+                <div class="logo-container">
+                    <img src="logo.jpeg" alt="Logo">
+                </div>
+                <h2 class="screen-title">Membership Required</h2>
+                <div class="warning-message">
+                    <span class="icon">⚠️</span> No active membership found for this account.
+                </div>
+                <p class="screen-subtitle">You'll need an active membership to participate in this program. Please purchase a membership first, then return to this page.</p>
+                
+                <div class="contact-options">
+                    <button type="button" id="purchase-membership-btn" class="purchase" style="width: 100%;">
+                        <span class="icon">🛒</span>Purchase Membership
+                    </button>
+                    
+                    <div class="divider"><span>OR</span></div>
+                    
+                    <button type="button" id="whatsapp-contact-btn" class="whatsapp" style="width: 100%;">
+                        <span class="icon">💬</span>Contact via WhatsApp
+                    </button>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <button type="button" id="no-membership-back-btn" class="close" style="width: 100%;">Back</button>
+                </div>
+            </div>
+
+            <!-- Redirect Screen -->
+            <div id="redirect-screen" style="display: none; text-align: center;">
+                <div class="logo-container">
+                    <img src="logo.jpeg" alt="Logo">
+                </div>
+                <h2 class="screen-title">Membership Not Qualified</h2>
+                <div class="error-message">
+                    <span class="icon">❌</span> Your current membership doesn't qualify for this program.
+                </div>
+                <p class="screen-subtitle">Your membership must be valid until at least March 25, 2026 to participate. Please upgrade your membership to continue.</p>
+                
+                <div class="contact-options">
+                    <button type="button" id="purchase-redirect-btn" class="purchase" style="width: 100%;">
+                        <span class="icon">⬆️</span>Upgrade Membership
+                    </button>
+                    
+                    <div class="divider"><span>OR</span></div>
+                    
+                    <button type="button" id="whatsapp-redirect-btn" class="whatsapp" style="width: 100%;">
+                        <span class="icon">💬</span>Contact via WhatsApp
+                    </button>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <button type="button" id="redirect-back-btn" class="close" style="width: 100%;">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const MOMENCE_BASE_URL = 'https://api.momence.com/api/v2';
+        const MOMENCE_BASIC_AUTH = 'Basic YXBpLTEzNzUyLUtYRTBPRFVQR3BTdkVrR1E6dlpPWkRGSHk0dEtOeWYzOHpvZ0JtQnRZSElSaTJldVo=';
+        const PURCHASE_PAGE_URL = 'https://momence.com/m/69064'; // Updated purchase URL
+        const WHATSAPP_NUMBER = '+918779292745'; // WhatsApp contact number
+        const TAG_ID = '230343'; // The tag ID to be added to member accounts
+        
+        // OAuth tokens
+        let accessToken = '';
+        let refreshToken = '';
+        
+        // Global variables to store member data
+        let currentMemberData = null;
+        let currentMembershipData = null;
+        let isExistingMember = false;
+        
+        // DOM elements
+        const formOverlay = document.getElementById('form-overlay');
+        const initialQuestion = document.getElementById('initial-question');
+        const memberSearch = document.getElementById('member-search');
+        const leadForm = document.getElementById('lead-form');
+        const redirectScreen = document.getElementById('redirect-screen');
+        const noMembershipScreen = document.getElementById('no-membership-screen');
+        
+        // Buttons
+        const existingMemberBtn = document.getElementById('existing-member-btn');
+        const newMemberBtn = document.getElementById('new-member-btn');
+        const closeButtonInitial = document.getElementById('close-button-initial');
+        const searchBackBtn = document.getElementById('search-back-btn');
+        const searchMemberBtn = document.getElementById('search-member-btn');
+        const formBackBtn = document.getElementById('form-back-btn');
+        const purchaseRedirectBtn = document.getElementById('purchase-redirect-btn');
+        const redirectBackBtn = document.getElementById('redirect-back-btn');
+        const purchaseMembershipBtn = document.getElementById('purchase-membership-btn');
+        const whatsappContactBtn = document.getElementById('whatsapp-contact-btn');
+        const whatsappRedirectBtn = document.getElementById('whatsapp-redirect-btn');
+        const noMembershipBackBtn = document.getElementById('no-membership-back-btn');
+        
+        // Form elements
+        const submitButton = document.querySelector('button[type=submit]');
+        const centerSelect = document.getElementById('center');
+        const classTypeContainer = document.getElementById('classTypeContainer');
+        const classTypeSelect = document.getElementById('type');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('search-results');
+        const memberInfo = document.getElementById('member-info');
+        const membershipStatus = document.getElementById('membership-status');
+        const memberWelcome = document.getElementById('member-welcome');
+        
+        // Authentication Functions
+        async function authenticate() {
+            try {
+                const authResponse = await fetch(
+                    `${MOMENCE_BASE_URL}/auth/token`,
+                    {
+                        method: "POST",
+                        headers: {
+                            accept: "application/json",
+                            authorization: MOMENCE_BASIC_AUTH,
+                            "content-type": "application/x-www-form-urlencoded",
+                        },
+                        body: new URLSearchParams({
+                            grant_type: "password",
+                            username: "physique57mumbai1@gmail.com",
+                            password: "Jimmeey@123",
+                        }),
+                    }
+                );
+
+                if (!authResponse.ok) {
+                    throw new Error(`Authentication failed: ${authResponse.status}`);
+                }
+
+                const authData = await authResponse.json();
+                accessToken = authData.access_token;
+                refreshToken = authData.refreshToken;
+
+                console.log('Successfully authenticated with Momence API');
+                return true;
+            } catch (error) {
+                console.error("Error during authentication:", error);
+                return false;
+            }
+        }
+
+        async function refreshAccessToken() {
+            try {
+                const refreshResponse = await fetch(
+                    `${MOMENCE_BASE_URL}/auth/token`,
+                    {
+                        method: "POST",
+                        headers: {
+                            accept: "application/json",
+                            authorization: MOMENCE_BASIC_AUTH,
+                            "content-type": "application/x-www-form-urlencoded",
+                        },
+                        body: new URLSearchParams({
+                            grant_type: "refresh_token",
+                            refresh_token: refreshToken,
+                        }),
+                    }
+                );
+
+                if (!refreshResponse.ok) {
+                    throw new Error(`Token refresh failed: ${refreshResponse.status}`);
+                }
+
+                const refreshData = await refreshResponse.json();
+                accessToken = refreshData.access_token;
+                refreshToken = refreshData.refreshToken;
+
+                console.log('Successfully refreshed access token');
+                return true;
+            } catch (error) {
+                console.error("Error refreshing access token:", error);
+                return false;
+            }
+        }
+        
+        // API Helper Functions - Direct Momence API calls with OAuth
+        async function searchMember(query) {
+            try {
+                if (!accessToken && !(await authenticate())) {
+                    throw new Error('Failed to authenticate');
+                }
+                
+                const url = `${MOMENCE_BASE_URL}/host/members?page=0&pageSize=100&sortOrder=DESC&sortBy=lastSeenAt&query=${encodeURIComponent(query)}`;
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'accept': 'application/json',
+                        'authorization': `Bearer ${accessToken}`
+                    }
+                });
+                
+                if (response.status === 401) {
+                    await refreshAccessToken();
+                    return searchMember(query);
+                }
+                
+                if (!response.ok) {
+                    throw new Error(`Search members failed: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                return result.payload || [];
+            } catch (error) {
+                console.error('Error searching member:', error);
+                return [];
+            }
+        }
+        
+        async function getMemberDetails(memberId) {
+            try {
+                if (!accessToken && !(await authenticate())) {
+                    throw new Error('Failed to authenticate');
+                }
+                
+                const url = `${MOMENCE_BASE_URL}/host/members/${memberId}`;
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'accept': 'application/json',
+                        'authorization': `Bearer ${accessToken}`
+                    }
+                });
+                
+                if (response.status === 401) {
+                    await refreshAccessToken();
+                    return getMemberDetails(memberId);
+                }
+                
+                if (!response.ok) {
+                    throw new Error(`Get member details failed: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                return result.payload;
+            } catch (error) {
+                console.error('Error getting member details:', error);
+                return null;
+            }
+        }
+        
+        async function fetchActiveSubscriptions(memberId) {
+            try {
+                if (!accessToken && !(await authenticate())) {
+                    throw new Error('Failed to authenticate');
+                }
+                
+                const response = await fetch(
+                    `${MOMENCE_BASE_URL}/host/members/${memberId}/bought-memberships/active?page=0&pageSize=200&includeFrozen=true`,
+                    {
+                        method: "GET",
+                        headers: {
+                            accept: "application/json",
+                            authorization: `Bearer ${accessToken}`,
+                        },
+                    }
+                );
+
+                if (response.status === 401) {
+                    await refreshAccessToken();
+                    return fetchActiveSubscriptions(memberId);
+                }
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Failed to fetch active subscriptions: ${response.status}`
+                    );
+                }
+
+                const data = await response.json();
+                return data.payload;
+            } catch (error) {
+                console.error("Error fetching active subscriptions:", error);
+                return null;
+            }
+        }
+        
+        async function addMemberTag(memberId) {
+            try {
+                if (!accessToken && !(await authenticate())) {
+                    throw new Error('Failed to authenticate');
+                }
+                
+                const url = `${MOMENCE_BASE_URL}/host/members/${memberId}/tags/${TAG_ID}`;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'accept': 'application/json',
+                        'authorization': `Bearer ${accessToken}`
+                    }
+                });
+                
+                if (response.status === 401) {
+                    await refreshAccessToken();
+                    return addMemberTag(memberId);
+                }
+                
+                if (response.ok) {
+                    console.log('Successfully added tag to member:', memberId);
+                    return true;
+                } else {
+                    console.error('Failed to add tag to member:', memberId, response.status);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error adding member tag:', error);
+                return false;
+            }
+        }
+        
+        // Utility Functions
+        function showScreen(screenElement) {
+            // Hide all screens
+            initialQuestion.style.display = 'none';
+            memberSearch.style.display = 'none';
+            leadForm.style.display = 'none';
+            redirectScreen.style.display = 'none';
+            noMembershipScreen.style.display = 'none';
+            
+            // Show target screen
+            screenElement.style.display = 'block';
+        }
+        
+        function openWhatsApp() {
+            const message = encodeURIComponent("Hi! I'm interested in Physique 57 membership and would like to get more information. Can you please help me?");
+            window.open(`https://wa.me/${WHATSAPP_NUMBER.replace('+', '')}?text=${message}`, '_blank');
+        }
+        
+        function isValidMembershipEndDate(endDate) {
+            if (!endDate) return false;
+            
+            const membershipEnd = new Date(endDate);
+            const cutoffDate = new Date('2026-03-23');
+            
+            return membershipEnd >= cutoffDate;
+        }
+        
+        function populateFormFromMemberData() {
+            if (currentMemberData) {
+                document.getElementById('firstName').value = currentMemberData.firstName || '';
+                document.getElementById('lastName').value = currentMemberData.lastName || '';
+                document.getElementById('email').value = currentMemberData.email || searchInput.value;
+                document.getElementById('phoneNumber').value = currentMemberData.phoneNumber || '';
+                
+                // Set default center based on member's home location if available
+                const centerSelect = document.getElementById('center');
+                if (currentMemberData.homeLocation) {
+                    // Try to match the home location to one of our centers
+                    const centerOptions = Array.from(centerSelect.options);
+                    const matchingOption = centerOptions.find(option => 
+                        option.value.toLowerCase().includes(currentMemberData.homeLocation.toLowerCase()) ||
+                        currentMemberData.homeLocation.toLowerCase().includes(option.value.toLowerCase())
+                    );
+                    
+                    if (matchingOption) {
+                        centerSelect.value = matchingOption.value;
+                        // Trigger change event to show class types
+                        centerSelect.dispatchEvent(new Event('change'));
+                    }
+                }
+                
+                memberWelcome.style.display = 'block';
+            }
+        }
+
+        
+        // Event Handlers
+        closeButtonInitial.addEventListener('click', function(event) {
+            event.preventDefault();
+            formOverlay.style.display = 'none';
+        });
+        
+        existingMemberBtn.addEventListener('click', function() {
+            isExistingMember = true;
+            showScreen(memberSearch);
+        });
+        
+        newMemberBtn.addEventListener('click', function() {
+            isExistingMember = false;
+            // Show Bengaluru option for new members
+            document.getElementById('bengaluru-option').style.display = 'block';
+            showScreen(leadForm);
+        });
+        
+        searchBackBtn.addEventListener('click', function() {
+            showScreen(initialQuestion);
+            searchInput.value = '';
+            searchResults.style.display = 'none';
+        });
+        
+        formBackBtn.addEventListener('click', function() {
+            if (isExistingMember) {
+                showScreen(memberSearch);
+                // Hide Bengaluru option for existing members
+                document.getElementById('bengaluru-option').style.display = 'none';
+            } else {
+                showScreen(initialQuestion);
+                // Hide Bengaluru option when going back to initial question
+                document.getElementById('bengaluru-option').style.display = 'none';
+            }
+            // Clear form and reset class type select
+            document.getElementById('lead-form').reset();
+            classTypeSelect.disabled = false;
+            memberWelcome.style.display = 'none';
+        });
+        
+        redirectBackBtn.addEventListener('click', function() {
+            showScreen(memberSearch);
+        });
+        
+        purchaseRedirectBtn.addEventListener('click', function() {
+            window.top.location.href = PURCHASE_PAGE_URL;
+        });
+        
+        purchaseMembershipBtn.addEventListener('click', function() {
+            window.top.location.href = PURCHASE_PAGE_URL;
+        });
+        
+        whatsappContactBtn.addEventListener('click', function() {
+            openWhatsApp();
+        });
+        
+        whatsappRedirectBtn.addEventListener('click', function() {
+            openWhatsApp();
+        });
+        
+        noMembershipBackBtn.addEventListener('click', function() {
+            showScreen(memberSearch);
+        });
+        
+        searchMemberBtn.addEventListener('click', async function() {
+            const query = searchInput.value.trim();
+            
+            if (!query) {
+                alert('Please enter an email or phone number');
+                return;
+            }
+            
+            searchMemberBtn.disabled = true;
+            searchMemberBtn.innerText = 'Searching...';
+            
+            try {
+                const members = await searchMember(query);
+                
+                if (members.length === 0) {
+                    memberInfo.innerHTML = '<h4>Member Not Found</h4><p style="margin: 0; color: var(--error-color); font-size: 13px;">No member found with that email or phone number.</p>';
+                    membershipStatus.innerHTML = `
+                        <div class="membership-status-card error">
+                            <p style="margin: 0 0 15px 0; font-weight: 600;">Account not found in our system.</p>
+                            <div class="btn-group vertical">
+                                <button type="button" class="submit" onclick="showScreen(leadForm); isExistingMember = false;" style="width: 100%;">
+                                    <span class="icon">+</span>Register as New Member
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    searchResults.style.display = 'block';
+                    return;
+                }
+                
+                // Assuming we take the first match
+                const member = members[0];
+                currentMemberData = member;
+                
+                memberInfo.innerHTML = `
+                    <h4>${member.firstName} ${member.lastName}</h4>
+                    <p style="margin: 0 0 4px 0; font-size: 13px; color: var(--text-light);"><span class="icon">📧</span>${member.email}</p>
+                    <p style="margin: 0; font-size: 13px; color: var(--text-light);"><span class="icon">📱</span>${member.phoneNumber || 'N/A'}</p>
+                `;
+                
+                // Get member's active memberships
+                const memberships = await fetchActiveSubscriptions(member.id);
+                
+                if (memberships === null || memberships.length === 0) {
+                    membershipStatus.innerHTML = `
+                        <div class="membership-status-card warning">
+                            <p style="margin: 0 0 15px 0; font-weight: 600; color: var(--warning-color);">No active memberships found.</p>
+                            <div class="btn-group vertical">
+                                <button type="button" class="submit" onclick="showScreen(noMembershipScreen)" style="width: 100%;">
+                                    <span class="icon">ℹ️</span>View Options
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Check if any membership qualifies
+                    const qualifyingMembership = memberships.find(m => isValidMembershipEndDate(m.endDate));
+                    
+                    if (qualifyingMembership) {
+                        currentMembershipData = qualifyingMembership;
+                        const endDate = new Date(qualifyingMembership.endDate).toLocaleDateString();
+                        const membershipName = qualifyingMembership.membership?.name || 'Unknown Plan';
+                        
+                        membershipStatus.innerHTML = `
+                            <div class="membership-status-card success">
+                                <p style="margin: 0 0 10px 0; color: var(--success-color); font-weight: 600;">
+                                    <span class="icon">✅</span> Qualifying Membership Found!
+                                </p>
+                                <p style="margin: 0 0 5px 0; font-size: 13px;"><strong>Plan:</strong> ${membershipName}</p>
+                                <p style="margin: 0 0 15px 0; font-size: 13px;"><strong>Expires:</strong> ${endDate}</p>
+                                <div class="btn-group">
+                                    <button type="button" class="submit" onclick="proceedToForm()" style="width: 100%;">
+                                        <span class="icon">➡️</span>Continue Registration
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        const latestMembership = memberships[0];
+                        const endDate = new Date(latestMembership.endDate).toLocaleDateString();
+                        const membershipName = latestMembership.membership?.name || 'Unknown Plan';
+                        
+                        membershipStatus.innerHTML = `
+                            <div class="membership-status-card error">
+                                <p style="margin: 0 0 10px 0; color: var(--error-color); font-weight: 600;">
+                                    <span class="icon">❌</span> Current membership doesn't qualify
+                                </p>
+                                <p style="margin: 0 0 5px 0; font-size: 13px;"><strong>Plan:</strong> ${membershipName}</p>
+                                <p style="margin: 0 0 10px 0; font-size: 13px;"><strong>Expires:</strong> ${endDate}</p>
+                                <p style="margin: 0 0 15px 0; font-size: 12px; color: var(--text-light);">
+                                    <span class="icon">ℹ️</span> Membership must be valid until at least March 25, 2026
+                                </p>
+                                <div class="btn-group">
+                                    <button type="button" class="submit" onclick="showScreen(redirectScreen)" style="width: 100%;">
+                                        <span class="icon">⬆️</span>View Upgrade Options
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+                
+                searchResults.style.display = 'block';
+                
+            } catch (error) {
+                console.error('Search error:', error);
+                alert('Error searching for member. Please try again.');
+            } finally {
+                searchMemberBtn.disabled = false;
+                searchMemberBtn.innerText = 'Search';
+            }
+        });
+        
+        function proceedToForm() {
+            populateFormFromMemberData();
+            showScreen(leadForm);
+        }
+
+        centerSelect.addEventListener('change', function() {
+            classTypeSelect.innerHTML = '<option value="" disabled selected>Select Class Type</option>'; 
+
+            if (centerSelect.value === 'Supreme Headquarters, Bandra') {
+                classTypeContainer.style.display = 'block';
+                classTypeSelect.setAttribute('required', 'required');
+                classTypeSelect.innerHTML += `
+                    <option value="Barre 57">Barre 57</option>
+                    <option value="powerCycle">powerCycle</option>
+                `;
+            } 
+            else if (centerSelect.value === 'Kwality House, Kemps Corner') {
+                classTypeContainer.style.display = 'block';
+                classTypeSelect.setAttribute('required', 'required');
+                classTypeSelect.innerHTML += `
+                    <option value="Barre">Barre</option>
+                    <option value="powerCycle">powerCycle</option>
+                    <option value="Strength Lab">Strength Lab</option>
+                `;
+            }
+            else if (centerSelect.value === 'Kenkere House, Bengaluru') {
+                classTypeContainer.style.display = 'block';
+                classTypeSelect.setAttribute('required', 'required');
+                classTypeSelect.innerHTML = '<option value="Barre" selected>Barre</option>';
+                classTypeSelect.disabled = true; // Make it read-only
+            }
+            else {
+                classTypeContainer.style.display = 'none';
+                classTypeSelect.removeAttribute('required');
+                classTypeSelect.disabled = false; // Re-enable if other options selected
+            }
+        });
+
+        // --- UPDATED FORM SUBMISSION FLOW ---
+        document.getElementById('lead-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            submitButton.disabled = true;
+            submitButton.innerText = 'Submitting...';
+
+            try {
+                const formData = new FormData(this);
+                const submissionData = Object.fromEntries(formData);
+                
+                let memberId = null;
+                
+                if (isExistingMember && currentMemberData) {
+                    // For existing members, we already have their member ID
+                    memberId = currentMemberData.id;
+                    console.log('Existing member submission for member ID:', memberId);
+                } else {
+                    // For new members, submit to Momence to create the lead/member
+                    console.log('New member submission');
+                    
+                    // Determine webhook parameters based on location
+                    let webhookUrl, token, sourceId;
+                    if (submissionData.center === 'Kenkere House, Bengaluru') {
+                        webhookUrl = 'https://api.momence.com/integrations/customer-leads/33905/collect';
+                        token = 'qy71rOk8en';
+                        sourceId = '147133';
+                    } else {
+                        // Default Mumbai parameters
+                        webhookUrl = 'https://api.momence.com/integrations/customer-leads/13752/collect';
+                        token = 'DOjMVL37Q5';
+                        sourceId = '147016';
+                    }
+                    
+                    const dataForMomence = {
+                        token: token,
+                        sourceId: sourceId,
+                        ...submissionData
+                    };
+                    
+                    const momenceResponse = await fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(dataForMomence)
+                    });
+                    
+                    if (!momenceResponse.ok) {
+                        throw new Error('Failed to submit to Momence: ' + momenceResponse.statusText);
+                    }
+                    
+                    console.log('Successfully submitted new member lead to Momence');
+                }
+                
+                // Add tag to member account (for both existing and new members)
+                if (memberId) {
+                    await addMemberTag(memberId);
+                } else {
+                    console.log('Unable to add tag - member ID not available for new members');
+                }
+                
+                // Send data to Google Sheet
+                const GOOGLE_SHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxVNIARfFs0R_KHCxNn_rOCAWI2R-pv1FaLB5IIsI8RcFWDnbFaZUgUKxA--69TMaJ0/exec';
+                
+                fetch(GOOGLE_SHEET_WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ...submissionData,
+                        memberType: isExistingMember ? 'existing' : 'new',
+                        membershipValid: isExistingMember && currentMembershipData ? 'yes' : 'no',
+                        memberId: memberId || 'N/A'
+                    })
+                }).catch(err => console.error('Error sending to Google Sheet:', err));
+                
+                // Fire tracking pixels
+                fbq('track', 'Lead');
+                
+                snaptr('track', 'SIGN_UP', {
+                    'sign_up_method': 'Form Submission',
+                    'user_email': formData.get('email'),
+                    'firstname': formData.get('firstName'),
+                    'lastname': formData.get('lastName'),
+                    'user_phone_number': formData.get('phoneNumber')
+                });
+                
+                console.log('Form submission completed successfully');
+                
+                // Redirect to success page
+                window.top.location.href = 'https://momence.com/u/physique-57-india-fffoSp';
+                
+            } catch (error) {
+                console.error('Form submission error:', error);
+                alert(error.message || 'An error occurred. Please try again.');
+                submitButton.disabled = false;
+                submitButton.innerText = 'Submit';
+            }
+        });
+
+        // --- MODIFICATION END ---
+
+
+        function formatPhoneNumber() {
+            let input = document.getElementById('phoneNumber');
+            let number = input.value.replace(/\D/g, ''); // Remove non-digit characters
+            const countryCodes = ['1', '33', '971', '44', '63', '65', '34'];
+
+            function startsWithCode(num) {
+                return countryCodes.some(code => num.startsWith(code));
+            }
+
+            if (number.length === 10 && !startsWithCode(number)) {
+                input.value = '+91' + number;
+            } else if (startsWithCode(number)) {
+                input.value = '+' + number;
+            } else {
+                input.value = '+' + number;
+            }
+        }
+
+        // Fire Snap Pixel VIEW_CONTENT event on page load
+        snaptr('track', 'VIEW_CONTENT', {
+            'price': 'INSERT_PRICE',
+            'currency': 'INSERT_CURRENCY',
+            'item_ids': ['INSERT_ITEM_ID_1', 'INSERT_ITEM_ID_2'],
+            'item_category': 'INSERT_ITEM_CATEGORY',
+            'user_email': '__INSERT_USER_EMAIL__',
+            'user_phone_number': '__INSERT_USER_PHONE_NUMBER__',
+            'user_hashed_email': '__INSERT_USER_HASHED_EMAIL__',
+            'user_hashed_phone_number': '__INSERT_USER_HASHED_PHONE_NUMBER__',
+            'firstname': 'INSERT_FIRST_NAME',
+            'lastname': 'INSERT_LAST_NAME',
+            'age': 'INSERT_AGE',
+            'geo_city': 'INSERT_GEO_CITY',
+            'geo_country': 'INSERT_GEO_COUNTRY',
+            'geo_postal_code': 'INSERT_GEO_POSTAL_CODE',
+            'geo_region': 'INSERT_GEO_REGION'
+        });
+    </script>
+</body>
+</html>
