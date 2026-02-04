@@ -1806,18 +1806,15 @@
             
             if (foundMemberships.length === 0) {
                 titleElement.textContent = 'No Active Memberships Found';
-                subtitleElement.textContent = 'Choose how you would like to proceed';
+                subtitleElement.textContent = 'You can still submit your entry';
                 
                 membershipList.innerHTML = `
                     <div class="info-message">
-                        We couldn't find an active membership associated with your account. You can still submit your entry and our team will contact you, or choose from the options below.
+                        We couldn't find an active membership associated with your account. You can still submit your entry and our team will contact you to complete your membership purchase.
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
                         <button type="button" id="submit-existing-no-membership-btn" class="submit" style="width: 100%;">
                             ✓ Submit Entry (Team Will Contact You)
-                        </button>
-                        <button type="button" id="im-new-btn" class="secondary" style="width: 100%;">
-                            I'm New Here
                         </button>
                     </div>
                 `;
@@ -1827,7 +1824,7 @@
                     this.disabled = true;
                     this.textContent = 'Submitting...';
                     
-                    // Tag the existing member
+                    // Tag the existing member (no webhook for existing members)
                     if (currentMembershipData && currentMembershipData.id) {
                         await addMemberTag(currentMembershipData.id);
                     }
@@ -1840,16 +1837,26 @@
                     await logToSignupsSheet(formData);
                     hasLoggedToSheets = true;
                     
+                    // Fire tracking pixels
+                    if (typeof fbq !== 'undefined') {
+                        fbq('track', 'Lead');
+                    }
+                    
+                    if (typeof snaptr !== 'undefined') {
+                        snaptr('track', 'SIGN_UP', {
+                            'sign_up_method': 'Form Submission',
+                            'user_email': formData.email,
+                            'firstname': formData.firstName,
+                            'lastname': formData.lastName,
+                            'user_phone_number': formData.phoneNumber
+                        });
+                    }
+                    
                     showMessage('success', 'Thank You for Registering!', 
                         'Thank you! Your entry has been submitted. A member of our team will get in touch with you shortly to complete your membership purchase.',
                         false,
                         true
                     );
-                });
-                
-                // Add event listener for "I'm New" button
-                document.getElementById('im-new-btn').addEventListener('click', function() {
-                    showScreen('new-member-screen');
                 });
                 
                 document.getElementById('submit-final-btn').style.display = 'none';
@@ -2286,17 +2293,74 @@
                         true
                     );
                 } else {
-                    // New member - create profile first
+                    // New member - create profile and send webhook
                     const memberResult = await createNewMember(formData);
                     
                     if (memberResult.success) {
+                        // Send webhook for new members
+                        let webhookUrl, webhookToken, sourceId;
+                        
+                        if (formData.center === 'Kenkere House, Bengaluru') {
+                            webhookUrl = 'https://api.momence.com/integrations/customer-leads/33905/collect';
+                            webhookToken = 'qy71rOk8en';
+                            sourceId = '147133';
+                        } else {
+                            webhookUrl = 'https://api.momence.com/integrations/customer-leads/13752/collect';
+                            webhookToken = 'DOjMVL37Q5';
+                            sourceId = '147016';
+                        }
+
+                        const submissionData = {
+                            token: webhookToken,
+                            sourceId: sourceId,
+                            firstName: formData.firstName,
+                            lastName: formData.lastName,
+                            email: formData.email,
+                            phoneNumber: formData.phoneNumber,
+                            center: formData.center,
+                            type: formData.classType,
+                            time: formData.preferredTime
+                        };
+
+                        try {
+                            const webhookResponse = await fetch(webhookUrl, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${webhookToken}`
+                                },
+                                body: JSON.stringify(submissionData)
+                            });
+                            
+                            if (webhookResponse.ok) {
+                                console.log('Successfully submitted to Momence webhook for new member');
+                            }
+                        } catch (error) {
+                            console.error('Error submitting to Momence webhook:', error);
+                        }
+                        
                         // Log to Signups sheet
                         formData.memberType = 'New Member';
                         formData.membershipStatus = 'Pending - Team Will Contact';
-                        formData.notes = 'User submitted entry without active membership. Team to follow up.';
+                        formData.notes = 'New member submitted entry. Team to follow up.';
                         
                         await logToSignupsSheet(formData);
                         hasLoggedToSheets = true;
+                        
+                        // Fire tracking pixels
+                        if (typeof fbq !== 'undefined') {
+                            fbq('track', 'Lead');
+                        }
+                        
+                        if (typeof snaptr !== 'undefined') {
+                            snaptr('track', 'SIGN_UP', {
+                                'sign_up_method': 'Form Submission',
+                                'user_email': formData.email,
+                                'firstname': formData.firstName,
+                                'lastname': formData.lastName,
+                                'user_phone_number': formData.phoneNumber
+                            });
+                        }
                         
                         showMessage('success', 'Thank You for Registering!', 
                             'Thank you! Your entry has been submitted. A member of our team will get in touch with you shortly to complete your registration.',
