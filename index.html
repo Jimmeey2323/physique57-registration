@@ -132,19 +132,18 @@
             position: relative;
             z-index: 1000;
             width: 100%;
-            max-width: 540px;
+            max-width: 1100px;
             margin: 20px auto;
             padding: 20px;
-            min-height: calc(100vh - 40px);
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        /* Form Container */
+        /* Form Container with Image */
         .form-container {
             background: #ffffff;
-            padding: 40px 36px;
+            padding: 0;
             border-radius: 32px;
             box-shadow: 
                 0 20px 60px rgba(0, 0, 0, 0.08),
@@ -155,6 +154,32 @@
             position: relative;
             overflow: hidden;
             animation: fadeInScale 0.6s ease-out;
+            display: flex;
+            min-height: auto;
+        }
+        
+        .form-image-container {
+            flex: 0 0 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 32px 0 0 32px;
+        }
+        
+        .form-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        .form-content-wrapper {
+            flex: 1;
+            padding: 28px 32px;
+            display: flex;
+            flex-direction: column;
         }
         
         .form-container::before {
@@ -197,7 +222,7 @@
         
         .logo-container {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             background: #ffffff;
             padding: 12px;
             border-radius: 50%;
@@ -234,6 +259,8 @@
             letter-spacing: -2px;
             text-transform: uppercase;
             line-height: 1;
+            font-feature-settings: 'tnum' 1, 'lnum' 1;
+            font-variant-numeric: lining-nums;
         }
         
         .brand-subtitle {
@@ -241,7 +268,7 @@
             font-weight: 500;
             color: var(--p57-gray-500);
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 20px;
             letter-spacing: 2px;
             text-transform: lowercase;
         }
@@ -261,7 +288,7 @@
             text-align: center;
             font-size: 14px;
             color: var(--p57-gray-500);
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             line-height: 1.6;
             font-weight: 400;
         }
@@ -274,11 +301,11 @@
         #main-form .button-container {
             display: flex;
             justify-content: flex-end;
-            margin-top: 24px;
+            margin-top: 16px;
         }
         
         #main-form label, #main-form p {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
             font-size: 12px;
             color: var(--p57-gray-700);
@@ -294,8 +321,8 @@
         #main-form select,
         .search-input {
             width: 100%;
-            padding: 14px 18px;
-            margin-bottom: 18px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
             border: 2px solid var(--p57-gray-200);
             border-radius: 12px;
             box-sizing: border-box;
@@ -478,7 +505,7 @@
         .progress-indicator {
             display: flex;
             justify-content: center;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
             gap: 12px;
         }
         
@@ -636,6 +663,21 @@
             background: var(--p57-gray-400);
         }
         
+        .thank-you-image {
+            width: 100%;
+            max-width: 400px;
+            margin: 24px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .thank-you-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
         @media (max-width: 600px) {
             .form-overlay {
                 padding: 12px;
@@ -643,8 +685,17 @@
             }
             
             .form-container {
-                padding: 32px 24px;
+                flex-direction: column;
                 border-radius: 28px;
+            }
+            
+            .form-image-container {
+                flex: 0 0 200px;
+                border-radius: 28px 28px 0 0;
+            }
+            
+            .form-content-wrapper {
+                padding: 32px 24px;
             }
             
             .brand-title {
@@ -747,8 +798,15 @@
 
     <div class="form-overlay" id="form-overlay">
         <div class="form-container">
-            <!-- Main Registration Form (First Screen) -->
-            <form id="main-form">
+            <!-- Left Image Container -->
+            <div class="form-image-container" id="form-image-container">
+                <img src="main.PNG" alt="Stronger in 30">
+            </div>
+            
+            <!-- Right Content Container -->
+            <div class="form-content-wrapper">
+                <!-- Main Registration Form (First Screen) -->
+                <form id="main-form">
                 <div class="logo-container">
                     <img src="logo.jpeg" alt="Physique 57">
                 </div>
@@ -953,6 +1011,8 @@
                 
                 <button type="button" id="close-message-btn" class="secondary" style="width: 100%;">Close</button>
             </div>
+            
+            </div><!-- End form-content-wrapper -->
         </div>
     </div>
 
@@ -1515,9 +1575,15 @@
         }
         
         // Show message screen
-        function showMessage(type, title, message, hasActions = false) {
+        function showMessage(type, title, message, hasActions = false, showThankYouImage = false) {
             const messageContent = document.getElementById('message-content');
+            const imageContainer = document.getElementById('form-image-container');
             let messageClass = type === 'success' ? 'success-message' : 'error-message';
+            
+            // Update image for thank you screen
+            if (showThankYouImage && imageContainer) {
+                imageContainer.innerHTML = '<img src="thank you.PNG" alt="Thank You">';
+            }
             
             messageContent.innerHTML = `
                 <div class="progress-indicator">
@@ -1526,6 +1592,7 @@
                     <div class="progress-step ${type === 'success' ? 'completed' : 'active'}">${type === 'success' ? '✓' : '3'}</div>
                 </div>
                 <h2 class="screen-title">${title}</h2>
+                ${showThankYouImage ? '<div class="thank-you-image"><img src="thank you.PNG" alt="Thank You" style="display: none;"></div>' : ''}
                 <div class="${messageClass}">${message}</div>
                 ${hasActions ? `
                     <div style="display: flex; flex-direction: column; gap: 15px; margin: 30px 0;">
@@ -2145,16 +2212,16 @@
                 const success = await submitRegistration();
                 
                 if (success) {
-                    showMessage('success', 'Registration Successful!', 
-                        'Your registration has been submitted successfully! You will be redirected to complete your booking.'
+                    showMessage('success', 'Thank You for Registering!', 
+                        'Your registration has been submitted successfully! A member from our team will reach out to you shortly to complete your registration.',
+                        false,
+                        true
                     );
-                    
-                    setTimeout(() => {
-                        window.open('https://momence.com/u/physique-57-india-fffoSp', '_top');
-                    }, 3000);
                 } else {
                     showMessage('error', 'Submission Error', 
-                        'There was an error submitting your registration. Please try again or contact our team.'
+                        'There was an error submitting your registration. Please try again or contact our team.',
+                        false,
+                        false
                     );
                     this.disabled = false;
                     this.textContent = 'Submit Registration';
@@ -2178,14 +2245,16 @@
                     await logToSignupsSheet(formData);
                     hasLoggedToSheets = true;
                     
-                    showMessage('success', 'Entry Submitted Successfully!', 
+                    showMessage('success', 'Thank You for Registering!', 
                         'Thank you! Your entry has been submitted. A member of our team will get in touch with you shortly to complete your registration.',
-                        false
+                        false,
+                        true
                     );
                 } else {
                     showMessage('error', 'Submission Error', 
                         'There was an error creating your profile. Please try again or contact our team via WhatsApp.',
-                        true
+                        true,
+                        false
                     );
                     this.disabled = false;
                     this.textContent = '✓ Submit Entry (Team Will Contact You)';
