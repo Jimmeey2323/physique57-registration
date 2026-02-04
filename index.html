@@ -1801,21 +1801,51 @@
             
             if (foundMemberships.length === 0) {
                 titleElement.textContent = 'No Active Memberships Found';
-                subtitleElement.textContent = 'We could not find an active membership for your account';
+                subtitleElement.textContent = 'Choose how you would like to proceed';
                 
                 membershipList.innerHTML = `
-                    <div class="error-message">
-                        No active memberships found. Please purchase a membership to continue.
+                    <div class="info-message">
+                        We couldn't find an active membership associated with your account. You can still submit your entry and our team will contact you, or choose from the options below.
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
-                        <button type="button" class="purchase" style="width: 100%;" onclick="window.open('${PURCHASE_PAGE_URL}', '_blank')">
-                            Purchase Membership Online
+                        <button type="button" id="submit-existing-no-membership-btn" class="submit" style="width: 100%;">
+                            ✓ Submit Entry (Team Will Contact You)
                         </button>
-                        <button type="button" class="whatsapp" style="width: 100%;" onclick="openWhatsApp()">
-                            Chat with Our Team
+                        <button type="button" id="im-new-btn" class="secondary" style="width: 100%;">
+                            I'm New Here
                         </button>
                     </div>
                 `;
+                
+                // Add event listener for submit without membership
+                document.getElementById('submit-existing-no-membership-btn').addEventListener('click', async function() {
+                    this.disabled = true;
+                    this.textContent = 'Submitting...';
+                    
+                    // Tag the existing member
+                    if (currentMembershipData && currentMembershipData.id) {
+                        await addMemberTag(currentMembershipData.id);
+                    }
+                    
+                    // Log to Signups sheet
+                    formData.memberType = 'Existing Member';
+                    formData.membershipStatus = 'No Active Membership - Team to Contact';
+                    formData.notes = 'Existing member submitted without active membership. Team to follow up.';
+                    
+                    await logToSignupsSheet(formData);
+                    hasLoggedToSheets = true;
+                    
+                    showMessage('success', 'Thank You for Registering!', 
+                        'Thank you! Your entry has been submitted. A member of our team will get in touch with you shortly to complete your membership purchase.',
+                        false,
+                        true
+                    );
+                });
+                
+                // Add event listener for "I'm New" button
+                document.getElementById('im-new-btn').addEventListener('click', function() {
+                    showScreen('new-member-screen');
+                });
                 
                 document.getElementById('submit-final-btn').style.display = 'none';
             } else {
@@ -2208,7 +2238,7 @@
                 formData.membershipDetails = `${formData.membershipName} - Credits Left: ${formData.membershipCreditsLeft}`;
                 formData.notes = 'Registration submitted with selected membership';
                 
-                // Now submit the registration
+                // Now submit the registration (this will add the tag)
                 const success = await submitRegistration();
                 
                 if (success) {
