@@ -2268,14 +2268,14 @@
                 this.disabled = true;
                 this.textContent = 'Submitting...';
                 
-                // Create new member profile first
-                const memberResult = await createNewMember(formData);
-                
-                if (memberResult.success) {
-                    // Log to Signups sheet
-                    formData.memberType = 'New Member';
+                // Check if member already exists (from previous search)
+                if (currentMembershipData && currentMembershipData.id) {
+                    // Existing member - just tag them and log
+                    await addMemberTag(currentMembershipData.id);
+                    
+                    formData.memberType = 'Existing Member';
                     formData.membershipStatus = 'Pending - Team Will Contact';
-                    formData.notes = 'User submitted entry without active membership. Team to follow up.';
+                    formData.notes = 'Existing member (via I\'m New button) submitted entry. Team to follow up.';
                     
                     await logToSignupsSheet(formData);
                     hasLoggedToSheets = true;
@@ -2286,13 +2286,32 @@
                         true
                     );
                 } else {
-                    showMessage('error', 'Submission Error', 
-                        'There was an error creating your profile. Please try again or contact our team via WhatsApp.',
-                        true,
-                        false
-                    );
-                    this.disabled = false;
-                    this.textContent = '✓ Submit Entry (Team Will Contact You)';
+                    // New member - create profile first
+                    const memberResult = await createNewMember(formData);
+                    
+                    if (memberResult.success) {
+                        // Log to Signups sheet
+                        formData.memberType = 'New Member';
+                        formData.membershipStatus = 'Pending - Team Will Contact';
+                        formData.notes = 'User submitted entry without active membership. Team to follow up.';
+                        
+                        await logToSignupsSheet(formData);
+                        hasLoggedToSheets = true;
+                        
+                        showMessage('success', 'Thank You for Registering!', 
+                            'Thank you! Your entry has been submitted. A member of our team will get in touch with you shortly to complete your registration.',
+                            false,
+                            true
+                        );
+                    } else {
+                        showMessage('error', 'Submission Error', 
+                            'There was an error creating your profile. Please try again or contact our team via WhatsApp.',
+                            true,
+                            false
+                        );
+                        this.disabled = false;
+                        this.textContent = '✓ Submit Entry (Team Will Contact You)';
+                    }
                 }
             });
             
