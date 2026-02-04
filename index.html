@@ -1561,13 +1561,18 @@
                 
                 const data = await response.json();
                 console.log('Successfully created new member:', data);
+                console.log('Member ID from response:', data.memberId || data.id || data.member?.id);
                 
                 // Add tag to the newly created member
-                if (data.memberId) {
-                    await addMemberTag(data.memberId);
+                // Check multiple possible fields for member ID
+                const memberId = data.memberId || data.id || data.member?.id;
+                if (memberId) {
+                    await addMemberTag(memberId);
+                    return { success: true, memberId: memberId };
+                } else {
+                    console.error('No member ID found in response:', data);
+                    return { success: false, error: 'No member ID in response' };
                 }
-                
-                return { success: true, memberId: data.memberId };
             } catch (error) {
                 console.error('Error creating new member:', error);
                 return { success: false, error: error.message };
