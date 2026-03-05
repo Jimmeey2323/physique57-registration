@@ -844,6 +844,56 @@
     .btn-checked-in:hover:not(:disabled) {
       background-color: #15803d;
     }
+    /* Studio Location Tabs */
+    .tab-btn {
+      padding: 0.625rem 1.25rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all var(--transition-normal);
+      background: var(--neutral-100);
+      color: var(--neutral-600);
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    .tab-btn:hover:not(.active) {
+      background: var(--primary-50);
+      color: var(--primary-700);
+      border-color: var(--primary-200);
+    }
+    .tab-btn.active {
+      background: var(--primary-600);
+      color: white;
+      border-color: var(--primary-600);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+    .tab-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.25rem;
+      height: 1.25rem;
+      padding: 0 0.3rem;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(255,255,255,0.25);
+      margin-left: 0.5rem;
+    }
+    .tab-btn:not(.active) .tab-count {
+      background: rgba(0,0,0,0.1);
+    }
+    .level-badge {
+      padding: 0.15rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: inline-block;
+      letter-spacing: 0.02em;
+    }
+    .level-beginner    { background:#dbeafe; color:#1d4ed8; }
+    .level-intermediate{ background:#fef3c7; color:#92400e; }
+    .level-advanced    { background:#fce7f3; color:#9d174d; }
   </style>
   <script>
     let members = [];
@@ -859,6 +909,76 @@
       dateRange: null
     };
     let currentSort = { column: null, direction: "asc" };
+    let apiMembers = [];
+    let currentTab = 'api';
+
+    // ─── Static member data: Kenkere House, Bengaluru ────────────────────────
+    const kenkereMembers = [
+      { id:'K001', firstName:'Aditya',     lastName:'Rao',                    email:'adityarao84@gmail.com',          phoneNumber:'+919620724451', level:'Beginner',     visits:{total:0,totalVisits:0} },
+      { id:'K002', firstName:'Padmavathi', lastName:'Prasad',                 email:'padmavathi2412@gmail.com',       phoneNumber:'+917397464828', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K003', firstName:'Devyani',    lastName:'Gupta',                  email:'devyani-gupta@hotmail.com',      phoneNumber:'+918425093357', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K004', firstName:'Sadhika',    lastName:'Agarwal',                email:'sadhika0593@gmail.com',          phoneNumber:'+919769956514', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K005', firstName:'Tanya',      lastName:'Dubey',                  email:'dubey.213@gmail.com',            phoneNumber:'+919971529262', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K006', firstName:'Cherishma',  lastName:'R',                      email:'cherishmarudraswamy@gmail.com',  phoneNumber:'+919538631818', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K007', firstName:'Anushree',   lastName:'Garg',                   email:'anugarg1998@gmail.com',          phoneNumber:'+918005031804', level:'Beginner',     visits:{total:0,totalVisits:0} },
+      { id:'K008', firstName:'Shefali',    lastName:'Sharma',                 email:'theshefalisharma@gmail.com',     phoneNumber:'+919717294912', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K009', firstName:'Aparajita',  lastName:'Ray',                    email:'aparajita553@gmail.com',         phoneNumber:'+918009813193', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K010', firstName:'Apoorva',    lastName:'Singh',                  email:'singh.apoorva.0803@gmail.com',   phoneNumber:'+919415390833', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K011', firstName:'Shreyas',    lastName:'Kulkarni',               email:'sskshreyas@gmail.com',           phoneNumber:'+919449880665', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K012', firstName:'Tania',      lastName:'Gupta',                  email:'taniapiscean@gmail.com',         phoneNumber:'+919166615111', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K013', firstName:'Kripa',      lastName:'Shukla',                 email:'kripashukla2003@gmail.com',      phoneNumber:'+919356553610', level:'Beginner',     visits:{total:0,totalVisits:0} },
+      { id:'K014', firstName:'Lathika',    lastName:'Rao',                    email:'latikarao03@gmail.com',          phoneNumber:'+919845923789', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K015', firstName:'Lekha',      lastName:'Neelakantappa',          email:'magluyoda@gmail.com',            phoneNumber:'+919880327238', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K016', firstName:'Safia',      lastName:'D',                      email:'safiasadhaam@gmail.com',         phoneNumber:'+919846160770', level:'Beginner',     visits:{total:0,totalVisits:0} },
+      { id:'K017', firstName:'Aman',       lastName:'Singh',                  email:'amansingh00000009@gmail.com',    phoneNumber:'+919590829328', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K018', firstName:'Bhawana',    lastName:'Gaur',                   email:'gaurb016@gmail.com',             phoneNumber:'+919999251447', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K019', firstName:'Ankitha',    lastName:'Dechamma',               email:'ank.dechamma@gmail.com',         phoneNumber:'+919481417121', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K020', firstName:'Medha',      lastName:'Menon',                  email:'medha.menon713@gmail.com',       phoneNumber:'+919731473233', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K021', firstName:'Ilana',      lastName:'Muthana',                email:'ilanamuthanna2504@gmail.com',    phoneNumber:'+919483705015', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K022', firstName:'Pragya',     lastName:'Bhatt',                  email:'pragya.bhatt@gmail.com',         phoneNumber:'+919686233003', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K023', firstName:'Minuri',     lastName:'Disanayake Rambukwella', email:'minuridr@gmail.com',             phoneNumber:'+918105206919', level:'Beginner',     visits:{total:0,totalVisits:0} },
+      { id:'K024', firstName:'Siddhi',     lastName:'Bothra',                 email:'siddhibothra1@gmail.com',        phoneNumber:'+919742136204', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K025', firstName:'Payal',      lastName:'Bhansali',               email:'bhansalipayal28@gmail.com',      phoneNumber:'+919051686275', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K026', firstName:'Tenzin',     lastName:'Tsomo',                  email:'tennytsomo8@gmail.com',          phoneNumber:'+918374090810', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'K027', firstName:'Sarayu',     lastName:'Natarajan',              email:'sarayu.natarajan@gmail.com',     phoneNumber:'+919972633883', level:'Beginner',     visits:{total:0,totalVisits:0} },
+      { id:'K028', firstName:'Tia',        lastName:'Matthew',                email:'tia2512@gmail.com',              phoneNumber:'+919900083076', level:'Beginner',     visits:{total:0,totalVisits:0} },
+      { id:'K029', firstName:'Bhawisha',   lastName:'Kewalramani',            email:'bhawishakewalramani22@gmail.com',phoneNumber:'+918955200739', level:'Beginner',     visits:{total:0,totalVisits:0} },
+      { id:'K030', firstName:'Vinay',      lastName:'Mirani',                 email:'vinay.mir89@gmail.com',          phoneNumber:'+919900084819', level:'Beginner',     visits:{total:0,totalVisits:0} },
+    ];
+
+    // ─── Static member data: Studio by Copper + Cloves, Indiranagar ─────────
+    const copperClovesMembers = [
+      { id:'CC001', firstName:'Jita',      lastName:'Mohapatra', email:'jitamohapatra05@gmail.com', phoneNumber:'+919790922837', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'CC002', firstName:'Richa',     lastName:'Saha',      email:'richasaha1402@gmail.com',   phoneNumber:'+919051053897', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'CC003', firstName:'Sangeetha', lastName:'A S',       email:'sangeethas16@gmail.com',    phoneNumber:'+916361677913', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'CC004', firstName:'Ann',       lastName:'Maria',     email:'annmariasabu01@gmail.com',  phoneNumber:'+918921412232', level:'Beginner',     visits:{total:0,totalVisits:0} },
+      { id:'CC005', firstName:'Namya',     lastName:'Patiyal',   email:'namyapatiyal04@gmail.com',  phoneNumber:'+918860380456', level:'Beginner',     visits:{total:0,totalVisits:0} },
+      { id:'CC006', firstName:'Soujanya',  lastName:'Sridharan', email:'soujisri.1996@gmail.com',   phoneNumber:'+917022728820', level:'Intermediate', visits:{total:0,totalVisits:0} },
+      { id:'CC007', firstName:'Sinjini',   lastName:'Bhatta',    email:'sinjinibhatta@gmail.com',   phoneNumber:'+918951214242', level:'Beginner',     visits:{total:0,totalVisits:0} },
+    ];
+
+    // ─── Switch studio location tab ───────────────────────────────────────────
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      if (tab === 'api') {
+        members = [...apiMembers];
+      } else if (tab === 'kenkere') {
+        members = [...kenkereMembers];
+      } else if (tab === 'coppercloves') {
+        members = [...copperClovesMembers];
+      }
+      currentFilters = { search: '', status: 'all', dateRange: null };
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) searchInput.value = '';
+      filteredMembers = [...members];
+      currentPage = 0;
+      selectedMembers.clear();
+      renderTable();
+      updateStatistics();
+      updateActiveFilters();
+    }
 
     // Theme Management
     function toggleTheme() {
@@ -1407,6 +1527,7 @@
 
         const firstPageData = await firstPageResponse.json();
         members = firstPageData.payload;
+        apiMembers = [...members];
         filteredMembers = [...members];
         renderTable();
         updateStatistics();
@@ -1432,6 +1553,7 @@
 
           const membersData = await membersResponse.json();
           members = members.concat(membersData.payload);
+          apiMembers = [...members];
           filteredMembers = [...members];
           updateStatistics();
 
@@ -1690,6 +1812,7 @@
           <td class="px-4 py-3 text-sm font-semibold text-gray-900">${member.visits?.total ?? 0}</td>
           <td class="px-4 py-3 text-sm font-semibold text-gray-900">${member.visits?.totalVisits ?? 0}</td>
           <td class="px-4 py-3">${statusBadge}</td>
+          <td class="px-4 py-3">${getLevelBadge(member.level)}</td>
         `;
 
         row.addEventListener("click", (e) => {
@@ -1715,6 +1838,14 @@
       } else {
         return '<span class="badge badge-success">Regular</span>';
       }
+    }
+
+    function getLevelBadge(level) {
+      if (!level) return '<span class="text-gray-400 text-xs">—</span>';
+      const cls = level.toLowerCase() === 'beginner' ? 'level-beginner'
+                : level.toLowerCase() === 'advanced'  ? 'level-advanced'
+                : 'level-intermediate';
+      return `<span class="level-badge ${cls}">${level}</span>`;
     }
 
     function updatePaginationInfo() {
@@ -2495,6 +2626,26 @@
         </div>
       </div>
 
+      <!-- Studio Location Tabs -->
+      <div class="premium-card p-4 mb-8" data-aos="fade-up">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="text-sm font-semibold text-gray-500 mr-1 flex items-center gap-1.5">
+            <i class="fas fa-map-marker-alt text-blue-500"></i> Studio:
+          </span>
+          <button onclick="switchTab('api')" id="tab-api" class="tab-btn active">
+            <i class="fas fa-globe mr-1.5"></i>All Studios (Momence)
+          </button>
+          <button onclick="switchTab('kenkere')" id="tab-kenkere" class="tab-btn">
+            <i class="fas fa-map-marker-alt mr-1.5"></i>Kenkere House, Bengaluru
+            <span class="tab-count">30</span>
+          </button>
+          <button onclick="switchTab('coppercloves')" id="tab-coppercloves" class="tab-btn">
+            <i class="fas fa-map-marker-alt mr-1.5"></i>Studio by Copper+Cloves, Indiranagar
+            <span class="tab-count">7</span>
+          </button>
+        </div>
+      </div>
+
       <!-- Advanced Filters -->
       <div class="premium-card p-6 mb-8" data-aos="fade-up" data-aos-delay="700">
         <div class="flex items-center justify-between mb-6">
@@ -2675,6 +2826,7 @@
                 <th class="px-6 py-4 cursor-pointer select-none text-left text-sm font-bold text-gray-700 tracking-wide" id="totalVisits" onclick="sortTable('totalVisits')">
                   Engagement <i class="fas fa-sort ml-1 text-gray-400"></i>
                 </th>
+                <th class="px-6 py-4 text-left text-sm font-bold text-gray-700 tracking-wide">Level</th>
                 <th class="px-6 py-4 text-left text-sm font-bold text-gray-700 tracking-wide">Status</th>
                 <th class="px-6 py-4 text-center text-sm font-bold text-gray-700 tracking-wide">Actions</th>
               </tr>
